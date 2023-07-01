@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Worker;
 use Validator;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\WorkerRegisterRequest;
 use App\Services\WorkerService\WorkerLoginService\WorkerLoginService;
+use App\Services\WorkerService\WorkerRegisterService\WorkerRegisterService;
 
 
 
@@ -35,68 +37,52 @@ class WorkerAuthController extends Controller
         // return (new WorkerLoginService())->login($request);
             return (new WorkerLoginService())->login($request);
     }
-    /**
-     * Register a User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function register(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,100',
-            'email' => 'required|string|email|max:100|unique:workers',
-            'password' => 'required|string|min:6',
-            'phone' => 'required',
-            'photo' => 'required|image',
-            'location' => 'required|string',
-        ]);
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
-        }
-        $worker = Worker::create(array_merge(
-                    $validator->validated(),
-                    [
-                        'password' => bcrypt($request->password),
-                        'photo' => $request->file('photo')->store('workers')
-                    ]
-                ));
-        return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $worker
-        ], 201);
+ 
+
+    public function register(WorkerRegisterRequest $request) {
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'required|string|between:2,100',
+        //     'email' => 'required|string|email|max:100|unique:workers',
+        //     'password' => 'required|string|min:6',
+        //     'phone' => 'required',
+        //     'photo' => 'required|image',
+        //     'location' => 'required|string',
+        // ]);
+        // if($validator->fails()){
+        //     return response()->json($validator->errors()->toJson(), 400);
+        // }
+        // $worker = Worker::create(array_merge(
+        //             $validator->validated(),
+        //             [
+        //                 'password' => bcrypt($request->password),
+        //                 'photo' => $request->file('photo')->store('workers')
+        //             ]
+        //         ));
+        // return response()->json([
+        //     'message' => 'User successfully registered',
+        //     'user' => $worker
+        // ], 201);
+        return (new WorkerRegisterService())->register($request);
     }
 
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+ 
     public function logout() {
         auth()->guard('worker')->logout();
         return response()->json(['message' => 'User successfully signed out']);
     }
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+  
+    
+
     public function refresh() {
         return $this->createNewToken(auth()->guard('worker')->refresh());
     }
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+
+ 
     public function userProfile() {
         return response()->json(auth()->guard('worker')->user());
     }
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+
+
     protected function createNewToken($token){
         return response()->json([
             'access_token' => $token,
