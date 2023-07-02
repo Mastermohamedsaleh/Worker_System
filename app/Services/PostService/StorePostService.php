@@ -4,8 +4,10 @@ namespace App\Services\PostService;
 
 
 use App\Models\Post;
+use App\Models\PostPhoto;
 use Validator;
-
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\AdminPost;
 
 
 class StorePostService {
@@ -36,7 +38,7 @@ class StorePostService {
       $data = $data->except('photo');
       $data['worker_id'] = auth()->guard('worker')->id();
       $post = Post::create($data);
-      return $post->id;
+      return $post;
    }
 
 
@@ -52,6 +54,28 @@ class StorePostService {
 
 
 
+   }
+
+
+   function sendNotifacationadmin($post)
+   {
+
+      $Admins = Admin::get();
+
+      Notification::send($Admins, new AdminPost(auth()->guard('worker')->user() , $post));
+
+   }
+
+   function store($request)
+   {
+           $post = $this->storePost($request);
+           if($request->hasfile('photo')){
+               $this->storePostPhotos($request , $post->id);
+           } //end if
+           $this->sendNotifacationadmin($post);
+           return response()->json([
+            'message'=> "Post has been created Successfully"
+           ]);
    }
 
 
