@@ -43,6 +43,13 @@ class WorkerLoginService
        $status = $worker->status;
        return $status;
    }
+   
+   function isVerified($email)
+   {
+       $worker = $this->model->whereEmail($email)->first();
+       $verified = $worker->verified_at;
+       return $verified;
+   }
 
    protected function createNewToken($token)
    {
@@ -57,10 +64,16 @@ class WorkerLoginService
   function login($request)
   {
     $data = $this->validation($request);
-    $this->inValidData($data);
-  if ($this->getStatus($request->email) == 0  ){
-    return response()->json("Your account is pandding");
-    } // end nested if
+    $Token =  $this->inValidData($data);
+
+    if($this->isVerified($request->email) == null){
+      return response()->json("Your account is not Verified Please Wait ... ");
+    }elseif($this->getStatus($request->email) == 0 ){
+      return response()->json("Your account is pandding");
+    }
+
+    return $this->createNewToken($Token);
+
   } //end one if
 
 

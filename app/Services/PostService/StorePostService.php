@@ -4,6 +4,7 @@ namespace App\Services\PostService;
 
 
 use App\Models\Post;
+use App\Models\Admin;
 use App\Models\PostPhoto;
 use Validator;
 use Illuminate\Support\Facades\Notification;
