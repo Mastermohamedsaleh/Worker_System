@@ -12,6 +12,7 @@ class Post extends Model
         'worker_id',
         'price',
         'content',
+        'status',
         'rejected_reason'
     ];
 }

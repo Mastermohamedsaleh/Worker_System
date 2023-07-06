@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{AdminAuthController , WorkerAuthController , ClientAuthController , PostController };
-use App\Http\Controller\AdminDashboard\AdminNotificationController;
+use App\Http\Controllers\AdminDashboard\{AdminNotificationController,PostStatusController};
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +50,14 @@ Route::controller(ClientAuthController::class)->prefix('auth/client')->group(fun
 Route::controller(PostController::class)->prefix('worker/post')->group(function (){
   
     Route::post('/add' , 'store')->middleware('auth:worker');
+    Route::get('/show' , 'index')->middleware('auth:admin');
+    Route::get('/approved' , 'approved')->middleware('auth:admin');
+     
+});
+
+Route::controller(PostStatusController::class)->prefix('admin')->group(function (){
+  
+    Route::get('/changstatus' , 'changStatusPost')->middleware('auth:admin');
      
 });
 
@@ -60,3 +68,54 @@ Route::controller(AdminNotificationController::class)->prefix('admin/notificatio
     Route::get('/markread' , 'markread')->middleware('auth:admin');
      
 });
+
+
+// Write a program which will count the "r" characters in the text "w3resource".
+
+
+Route::get('get' , function(){
+
+
+//    $word = "w3resource";
+//    $r = "r";
+//    $count = 0; 
+
+//    for( $i = 0 ; $i < strlen($word) ; $i++ ){
+//      if( $word[$i] == $r ) {
+//       echo  $n = strlen( $word[$i] ) ;
+//      }
+//     //  echo $count = $n + 1 ;
+//    }
+
+
+echo '<table align="left" border="1" cellpadding="3" cellspacing="0">';
+
+
+for($i = 0 ; $i < 6 ; $i++){
+    echo "<tr>";
+    
+    for ($j=1;$j<=5;$j++){
+
+        echo  "<td>".$i * $j = $i*$j ."</td>";
+
+    } //end for one
+
+
+  echo "</tr>";
+}
+
+ 
+echo '<table>';
+ 
+  
+
+
+
+
+  
+
+
+
+});
+
+

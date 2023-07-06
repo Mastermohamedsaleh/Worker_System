@@ -13,3 +13,5 @@ class Post_Photo extends Model
     'photo'
   ];
 }
+
+
