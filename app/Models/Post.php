@@ -15,4 +15,10 @@ class Post extends Model
         'status',
         'rejected_reason'
     ];
+
+
+    public function worker(){
+        return $this->belongsTo(Worker::class);
+    }
+
 }

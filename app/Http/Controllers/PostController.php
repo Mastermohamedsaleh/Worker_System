@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\StorepostRequest;
 use App\Services\PostService\StorePostService;
-use App\Model\Post;
+use App\Models\Post;
 
 
 
@@ -31,7 +31,7 @@ class PostController extends Controller
 
     public function approved(){
 
-        $posts =   Post::where('status' , 'approved')->get();
+        $posts =   Post::with('worker:id,name')->where('status' , 'approved')->get();
         return response()->json([
           "posts" => $posts
         ]);

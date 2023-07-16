@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AdminAuthController , WorkerAuthController , ClientAuthController , PostController };
+use App\Http\Controllers\{AdminAuthController , WorkerAuthController , ClientAuthController , PostController ,ClientServicesController };
 use App\Http\Controllers\AdminDashboard\{AdminNotificationController,PostStatusController};
 
 /*
@@ -51,7 +51,7 @@ Route::controller(PostController::class)->prefix('worker/post')->group(function 
   
     Route::post('/add' , 'store')->middleware('auth:worker');
     Route::get('/show' , 'index')->middleware('auth:admin');
-    Route::get('/approved' , 'approved')->middleware('auth:admin');
+    Route::get('/approved' , 'approved');
      
 });
 
@@ -68,6 +68,19 @@ Route::controller(AdminNotificationController::class)->prefix('admin/notificatio
     Route::get('/markread' , 'markread')->middleware('auth:admin');
      
 });
+
+
+
+
+
+Route::controller(ClientServicesController::class)->prefix('order')->group(function (){
+
+    Route::post('/addorder' , 'addorder')->middleware('auth:client');
+    Route::get('/showorder' , 'showorder')->middleware('auth:worker');
+     
+});
+
+
 
 
 // Write a program which will count the "r" characters in the text "w3resource".

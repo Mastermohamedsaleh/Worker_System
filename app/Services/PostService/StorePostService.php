@@ -34,9 +34,20 @@ class StorePostService {
 
    }
 
+
+   function addminPercent($price)
+   {
+      $discount = $price * 0.05 ;
+      $priceAfterDiscount = $price - $discount;
+      return $priceAfterDiscount; 
+   }
+
+
+
    function storePost($data)
    {
       $data = $data->except('photo');
+      $data['price'] = $this->addminPercent($data['price']);
       $data['worker_id'] = auth()->guard('worker')->id();
       $post = Post::create($data);
       return $post;
@@ -75,7 +86,7 @@ class StorePostService {
            } //end if
            $this->sendNotifacationadmin($post);
            return response()->json([
-            'message'=> "Post has been created Successfully"
+            'message'=> "Post has been created Successfully , Your price after discount is {$post->price}"
            ]);
    }
 
