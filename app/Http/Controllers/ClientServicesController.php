@@ -27,12 +27,17 @@ class ClientServicesController extends Controller
 
     public function showorder()
     {
-        $orders = ClientOrder::with('post','client')->whereStatus('pending')->whereHas('post', function ($query){
-           $query->where('worker_id',auth()->guard('worker')->id());
-        })->get();
+        return $this->Order->showorder();
+    }
 
+
+    public function update($id , Request $request)
+    {
+        $order = ClientOrder::findOrFail($id);
+        $order->SetAttribute('status',$request->status)->save();
+        // $order->update(['status'=>$request->status]);
         return response()->json([
-            'orders'=>$orders
+          'message' => 'update'
         ]);
     }
 

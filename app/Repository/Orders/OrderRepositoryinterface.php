@@ -5,6 +5,6 @@ interface OrderRepositoryinterface{
    
 
     public function store($request); 
-
+    public function showorder();
      
 }

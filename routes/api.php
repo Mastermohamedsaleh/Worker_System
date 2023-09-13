@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AdminAuthController , WorkerAuthController , ClientAuthController , PostController ,ClientServicesController };
+use App\Http\Controllers\{AdminAuthController , WorkerAuthController , ClientAuthController , PostController ,ClientServicesController,WorkerReviewController ,  ProfileWorkerController};
 use App\Http\Controllers\AdminDashboard\{AdminNotificationController,PostStatusController};
 
 /*
@@ -61,6 +61,15 @@ Route::controller(PostStatusController::class)->prefix('admin')->group(function 
      
 });
 
+
+
+/////////////////////////////start profile///////////////////////////////////
+
+Route::get('/workerprofile' , [ProfileWorkerController::class, 'workerprofile' ])->middleware('auth:worker');
+
+
+///////////////////////////end profile/////////////////////////////////////
+
 Route::controller(AdminNotificationController::class)->prefix('admin/notifications')->group(function (){
   
     Route::get('/all' , 'index')->middleware('auth:admin');
@@ -77,7 +86,13 @@ Route::controller(ClientServicesController::class)->prefix('order')->group(funct
 
     Route::post('/addorder' , 'addorder')->middleware('auth:client');
     Route::get('/showorder' , 'showorder')->middleware('auth:worker');
+    Route::post('/update/order/{id}' , 'update')->middleware('auth:worker');
      
+});
+
+Route::controller(WorkerReviewController::class)->group(function (){
+    Route::post('/review' , 'store')->middleware('auth:client');
+    Route::get('/postRate/{id}' , 'postRate');
 });
 
 

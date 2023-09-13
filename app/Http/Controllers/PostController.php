@@ -8,6 +8,9 @@ use App\Http\Requests\StorepostRequest;
 use App\Services\PostService\StorePostService;
 use App\Models\Post;
 
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Database\Eloquant\Builder;
 
 
 class PostController extends Controller
@@ -31,7 +34,27 @@ class PostController extends Controller
 
     public function approved(){
 
-        $posts =   Post::with('worker:id,name')->where('status' , 'approved')->get();
+      // $posts = QueryBuilder::for(Post::class)
+      //  ->with('worker:id,name')
+      //  ->allowedFilters(['content','worker.name'])
+      //  ->get();
+
+      
+
+
+    $posts = QueryBuilder::for(Post::class)
+    ->allowedFilters([
+      'price',
+        AllowedFilter::callback('item', function (Builder $query, $value) {
+            // $query->whereHas('posts');
+            $query->where('price','like',"%{$value}%");
+        }),
+    ]);
+
+
+
+
+        // $posts =   Post::with('worker:id,name')->where('status' , 'approved')->get();
         return response()->json([
           "posts" => $posts
         ]);

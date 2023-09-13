@@ -46,6 +46,16 @@ class Worker extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
     
+
+
+
+
+
+    public function posts(){
+    return   $this->hasMany(Post::class , 'worker_id');
+    }
+
+     
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

@@ -27,6 +27,15 @@ class OrderRepository implements OrderRepositoryinterface{
 
 
     }
+    public function showorder(){
+        $orders = ClientOrder::with('post','client')->whereStatus('pending')->whereHas('post', function ($query){
+            $query->where('worker_id',auth()->guard('worker')->id());
+         })->get();
+ 
+         return response()->json([
+             'orders'=>$orders
+         ]);
+    }
 
   
 
