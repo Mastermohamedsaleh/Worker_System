@@ -8,6 +8,9 @@ use App\Models\Post;
 use App\Models\WorkerReview;
 use App\Models\Worker;
 
+use App\Http\Requests\UpdateProfileRequest;
+use App\Services\WorkerService\WorkerUpdateService\WorkerUpdateService;
+
 class ProfileWorkerController extends Controller
 {
     public function workerprofile()
@@ -28,4 +31,26 @@ class ProfileWorkerController extends Controller
 
         // return response()->json(auth()->guard('worker')->user());
     }
+
+
+    public function edit()
+    {
+        return response()->json([      
+              "worker"=>  Worker::find(auth()->guard('worker')->id())->makehidden('status')
+          ]);
+    }
+
+    public function update(UpdateProfileRequest $request){
+       return (new WorkerUpdateService())->update($request);
+
+    }
+
+    public function deleteallposts(){
+        Post::where('worker_id',auth()->guard('worker')->id())->delete();
+        return response()->json([
+            "message" => "You delete All Posts"
+        ]);
+    }
+
+
 }

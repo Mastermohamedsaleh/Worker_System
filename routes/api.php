@@ -66,6 +66,9 @@ Route::controller(PostStatusController::class)->prefix('admin')->group(function 
 /////////////////////////////start profile///////////////////////////////////
 
 Route::get('/workerprofile' , [ProfileWorkerController::class, 'workerprofile' ])->middleware('auth:worker');
+Route::get('/workereditprofile' , [ProfileWorkerController::class, 'edit' ])->middleware('auth:worker');
+Route::post('/workerupdateprofile' , [ProfileWorkerController::class, 'update' ])->middleware('auth:worker');
+Route::get('/deleteallposts' , [ProfileWorkerController::class, 'deleteallposts' ])->middleware('auth:worker');
 
 
 ///////////////////////////end profile/////////////////////////////////////
