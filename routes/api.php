@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AdminAuthController , WorkerAuthController , ClientAuthController , PostController ,ClientServicesController,WorkerReviewController ,  ProfileWorkerController};
+use App\Http\Controllers\{AdminAuthController , WorkerAuthController , ClientAuthController , PostController ,ClientServicesController,WorkerReviewController ,  ProfileWorkerController , PaymentController};
 use App\Http\Controllers\AdminDashboard\{AdminNotificationController,PostStatusController};
 
 /*
@@ -98,6 +98,19 @@ Route::controller(WorkerReviewController::class)->group(function (){
     Route::get('/postRate/{id}' , 'postRate');
 });
 
+
+
+
+
+
+
+
+
+Route::controller(PaymentController::class)->group(function(){
+    Route::get('handle-payment/{id}', 'handlePayment')->name('handle-payment');
+    Route::get('checkoutsuccess', 'success')->name('checkout.success');
+    Route::get('checkoutcancel', 'cancel')->name('checkout.cancel');
+});
 
 
 
