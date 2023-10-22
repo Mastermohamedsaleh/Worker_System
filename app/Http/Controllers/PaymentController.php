@@ -30,7 +30,7 @@ class PaymentController extends Controller
         ];
 // table workercashes
         $workercash = Worker_cashe::create([
-            'post_id'=> $p->id,
+            'post_id'=> $p->id, 
             'client_id'=> auth()->guard('client')->id(),
             'total'=>$p->price
         ]);
