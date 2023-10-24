@@ -107,7 +107,7 @@ Route::controller(WorkerReviewController::class)->group(function (){
 
 
 Route::controller(PaymentController::class)->group(function(){
-    Route::get('handle-payment/{id}', 'handlePayment')->name('handle-payment');
+    Route::get('handle-payment/{id}', 'index')->name('handle-payment');
     Route::get('checkoutsuccess', 'success')->name('checkout.success');
     Route::get('checkoutcancel', 'cancel')->name('checkout.cancel');
 });
