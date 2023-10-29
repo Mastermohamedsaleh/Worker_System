@@ -18,18 +18,19 @@ class ProfileWorkerController extends Controller
 
         $workerId = auth()->guard('worker')->id();
         $worker = Worker::with('posts')->find($workerId);
-        $reviews = WorkerReview::whereIn('post_id' , $worker->pluck('id'))->get();
+         $reviews = WorkerReview::whereIn('post_id' , $worker->pluck('id'))->get();
 
+               $reviews =  WorkerReview::with('post')->find($worker->pluck('id'));
+               $reviews = $reviews->sum('rate')/$reviews->count();
+    
         return response()->json([
 
              'data' => $worker,
              'worker'=>auth()->guard('worker')->user(),
-             'reviews'=>$reviews->sum('rate')/$reviews->count()
-          
-      
+             'reviews'=>$reviews  
         ]);
 
-        // return response()->json(auth()->guard('worker')->user());
+        
     }
 
 
@@ -42,6 +43,9 @@ class ProfileWorkerController extends Controller
 
     public function update(UpdateProfileRequest $request){
        return (new WorkerUpdateService())->update($request);
+
+
+
 
     }
 

@@ -30,25 +30,28 @@ class WorkerUpdateService {
     }
 
     public function photo($data){
-        if(request()->has('photo')){
-            $data['photo'] = (request()->file('photo') instanceof UploadedFile ) ? request()->file('photo')->store('workers') : $this->model->photo;
+        if(request()->hasFile('photo')){
+            $data['photo'] = (request()->file('photo') instanceof UploadedFile) ? request()->file('photo')->store('workers') : $this->model->photo;
             return $data;
         }//end if
         $data['photo'] = null ;
         return $data;
+
     }
 
    
     public function update($request){
          
-        $data = $request->all();
-        $data = $this->password($data);
-        $data = $this->photo($data);
-        $this->model->update($data);
+       $data = $request->all();
+       $data = $this->password($data);
+       $data = $this->photo($data);
+       $this->model->update($data);
         return response()->json([
            "message" => "update"
         ]);
-         
+
+       
+
     }
      
        

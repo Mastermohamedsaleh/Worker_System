@@ -20,48 +20,13 @@ class WorkerAuthController extends Controller
     }
  
     public function login(LoginRequest $request){
-    	// $validator = Validator::make($request->all(), [
-        //     'email' => 'required|email',
-        //     'password' => 'required|string|min:6',
-        // ]);
-        // if ($validator->fails()) {
-        //     return response()->json($validator->errors(), 422);
-        // }
-        // if (! $token = auth()->guard('worker')->attempt($validator->validated())) {
-        //     return response()->json(['error' => 'Unauthorized'], 401);
-        // }
-        // return $this->createNewToken($token);
     
-  
-         
-        // return (new WorkerLoginService())->login($request);
             return (new WorkerLoginService())->login($request);
     }
  
 
     public function register(WorkerRegisterRequest $request) {
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required|string|between:2,100',
-        //     'email' => 'required|string|email|max:100|unique:workers',
-        //     'password' => 'required|string|min:6',
-        //     'phone' => 'required',
-        //     'photo' => 'required|image',
-        //     'location' => 'required|string',
-        // ]);
-        // if($validator->fails()){
-        //     return response()->json($validator->errors()->toJson(), 400);
-        // }
-        // $worker = Worker::create(array_merge(
-        //             $validator->validated(),
-        //             [
-        //                 'password' => bcrypt($request->password),
-        //                 'photo' => $request->file('photo')->store('workers')
-        //             ]
-        //         ));
-        // return response()->json([
-        //     'message' => 'User successfully registered',
-        //     'user' => $worker
-        // ], 201);
+      
         return (new WorkerRegisterService())->register($request);
     }
 

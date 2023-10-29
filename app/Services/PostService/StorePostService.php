@@ -63,20 +63,15 @@ class StorePostService {
         $postphotos->photo = $pho->store('posts');
         $postphotos->save();
     }
-
-
-
    }
 
 
    function sendNotifacationadmin($post)
    {
-
       $Admins = Admin::get();
-
       Notification::send($Admins, new AdminPost(auth()->guard('worker')->user() , $post));
-
    }
+
 
    function store($request)
    {

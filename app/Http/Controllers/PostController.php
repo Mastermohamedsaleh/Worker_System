@@ -34,14 +34,6 @@ class PostController extends Controller
 
     public function approved(){
 
-      // $posts = QueryBuilder::for(Post::class)
-      //  ->with('worker:id,name')
-      //  ->allowedFilters(['content','worker.name'])
-      //  ->get();
-
-      
-
-
     $posts = QueryBuilder::for(Post::class)
     ->allowedFilters([
       'price',
@@ -51,10 +43,6 @@ class PostController extends Controller
         }),
     ]);
 
-
-
-
-        // $posts =   Post::with('worker:id,name')->where('status' , 'approved')->get();
         return response()->json([
           "posts" => $posts
         ]);
